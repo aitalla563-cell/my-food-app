@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Admin Panel</title>
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
+<header>
+  <div class="topbar">
+    <div class="brand">
+      <div class="logo">🛠️</div>
+      <div>
+        <h1 data-i18n="admin">لوحة التحكم</h1>
+        <p>Manage orders, drivers, and demo data</p>
+      </div>
+    </div>
+    <div class="actions">
+      <div class="lang">
+        <span class="hint">Lang</span>
+        <select id="langSelect" aria-label="Language">
+          <option value="ar">AR</option>
+          <option value="en">EN</option>
+        </select>
+      </div>
+      <div id="navUser"></div>
+      <div id="navLinks" class="actions"></div>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <section class="card">
+    <div class="card-title">
+      <h2 data-i18n="orders">الطلبات</h2>
+      <span class="hint">Assign drivers and update statuses</span>
+    </div>
+    <div id="ordersWrap"></div>
+  </section>
+
+  <div class="toast" id="toast"></div>
+</main>
+
+<script type="module" src="assets/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Sign up</title>
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
+<header>
+  <div class="topbar">
+    <div class="brand">
+      <div class="logo">🧾</div>
+      <div>
+        <h1 data-i18n="register">إنشاء حساب</h1>
+        <p>Customer account</p>
+      </div>
+    </div>
+    <div class="actions">
+      <div class="lang">
+        <span class="hint">Lang</span>
+        <select id="langSelect" aria-label="Language">
+          <option value="ar">AR</option>
+          <option value="en">EN</option>
+        </select>
+      </div>
+      <a class="btn ghost" href="index.html" data-i18n="home">الرئيسية</a>
+      <a class="btn secondary" href="login.html" data-i18n="login">تسجيل الدخول</a>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <div class="card" style="max-width:720px;margin:18px auto;">
+    <div class="card-title">
+      <h2 data-i18n="register">إنشاء حساب</h2>
+      <span class="hint">Front-End only</span>
+    </div>
+
+    <div class="form">
+      <div class="field">
+        <label>Name</label>
+        <input id="name" class="input" placeholder="Full name" />
+      </div>
+      <div class="field">
+        <label>Email</label>
+        <input id="email" class="input" placeholder="example@mail.com" />
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input id="pass" type="password" class="input" placeholder="••••••••" />
+      </div>
+      <div class="field">
+        <label>Confirm</label>
+        <input id="pass2" type="password" class="input" placeholder="••••••••" />
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn" id="regBtn" data-i18n="register">إنشاء</button>
+      <a class="btn ghost" href="login.html" data-i18n="login">تسجيل الدخول</a>
+    </div>
+
+    <hr/>
+    <div class="small">Passwords are stored as simple hash in browser for demo.</div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+</main>
+
+<script type="module">
+  import { registerCustomer } from "./assets/auth.js";
+  import { showToast } from "./assets/util.js";
+  import { ensureSeed } from "./assets/db.js";
+  import { applyI18n } from "./assets/i18n.js";
+
+  ensureSeed();
+  applyI18n(document);
+
+  const name = document.getElementById("name");
+  const email = document.getElementById("email");
+  const pass = document.getElementById("pass");
+  const pass2 = document.getElementById("pass2");
+  const btn = document.getElementById("regBtn");
+
+  btn.addEventListener("click", ()=>{
+    if(pass.value !== pass2.value){ showToast("Passwords do not match"); return; }
+    const res = registerCustomer({name:name.value, email:email.value, password:pass.value});
+    if(!res.ok){ showToast(res.msg); return; }
+    location.href = "app.html";
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Login</title>
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
+<header>
+  <div class="topbar">
+    <div class="brand">
+      <div class="logo">🔐</div>
+      <div>
+        <h1 data-i18n="login">تسجيل الدخول</h1>
+        <p>Admin / Owner / Driver / Customer</p>
+      </div>
+    </div>
+    <div class="actions">
+      <div class="lang">
+        <span class="hint">Lang</span>
+        <select id="langSelect" aria-label="Language">
+          <option value="ar">AR</option>
+          <option value="en">EN</option>
+        </select>
+      </div>
+      <a class="btn ghost" href="index.html" data-i18n="home">الرئيسية</a>
+      <a class="btn" href="register.html" data-i18n="register">إنشاء حساب</a>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <div class="card" style="max-width:720px;margin:18px auto;">
+    <div class="card-title">
+      <h2 data-i18n="login">تسجيل الدخول</h2>
+      <span class="hint">Redirect by role</span>
+    </div>
+
+    <div class="form">
+      <div class="field">
+        <label>Email</label>
+        <input id="email" class="input" placeholder="example@mail.com" />
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input id="pass" type="password" class="input" placeholder="••••••••" />
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn secondary" id="loginBtn" data-i18n="login">دخول</button>
+      <a class="btn ghost" href="register.html" data-i18n="register">إنشاء حساب</a>
+    </div>
+
+    <hr/>
+    <div class="small">
+      admin@demo.com / Admin123 • owner@demo.com / Owner123 • driver@demo.com / Driver123
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+</main>
+
+<script type="module">
+  import { login } from "./assets/auth.js";
+  import { ensureSeed, getDB, currentUser } from "./assets/db.js";
+  import { showToast } from "./assets/util.js";
+  import { applyI18n } from "./assets/i18n.js";
+
+  ensureSeed();
+  applyI18n(document);
+
+  const params = new URLSearchParams(location.search);
+  const next = params.get("next");
+
+  const email = document.getElementById("email");
+  const pass = document.getElementById("pass");
+  const btn = document.getElementById("loginBtn");
+
+  btn.addEventListener("click", ()=>{
+    const res = login(email.value, pass.value);
+    if(!res.ok){ showToast(res.msg); return; }
+
+    const db = getDB();
+    const u = currentUser(db);
+
+    if(next){ location.href = next; return; }
+    if(u.role === "admin") location.href = "admin.html";
+    else if(u.role === "owner") location.href = "owner.html";
+    else if(u.role === "driver") location.href = "driver.html";
+    else location.href = "app.html";
+  });
+
+  pass.addEventListener("keydown", (e)=>{ if(e.key==="Enter") btn.click(); });
+</script>
+</body>
+</html>
