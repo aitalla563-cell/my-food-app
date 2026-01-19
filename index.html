@@ -1,337 +1,423 @@
-﻿<!DOCTYPE html>
-<html lang="ar">
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<title>منصة طلب الطعام</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>منصة طلب الطعام</title>
 
-<style>
-body{font-family:Arial;background:#F7F4EF;direction:rtl;margin:0}
-header{background:#F7F4EF;color:#000000;padding:50px;text-align:center}
-.container{width:90%;max-width:1100px;margin:auto;padding:20px}
-.rest{margin:30px 0}
-.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
-.product{background:#fff;border-radius:12px;box-shadow:0 4px 10px rgba(0,0,0,.1);padding:15px;text-align:center}
-.product img{width:100%;height:150px;object-fit:cover;border-radius:10px}
-.product button{background:#ff5722;color:#fff;border:none;padding:8px;width:100%;border-radius:8px;cursor:pointer}
+  <style>
+    body{font-family:Arial;background:#F7F4EF;direction:rtl;margin:0}
+    header{background:#F7F4EF;color:#000;padding:50px 20px;text-align:center}
+    header img{width:150px;height:auto;display:block;margin:0 auto 10px}
+    .container{width:90%;max-width:1100px;margin:auto;padding:20px}
+    .rest{margin:30px 0}
+    .products{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
+    .product{background:#fff;border-radius:12px;box-shadow:0 4px 10px rgba(0,0,0,.1);padding:15px;text-align:center}
+    .product img{width:100%;height:150px;object-fit:cover;border-radius:10px}
+    .product button{background:#ff5722;color:#fff;border:none;padding:8px;width:100%;border-radius:8px;cursor:pointer}
+    .product button:active{transform:scale(.99)}
 
-.cart{background:#fff;padding:20px;border-radius:12px;margin-top:30px}
-.cart-item{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #ddd;padding:6px 0}
-.cart-item button{background:red;color:white;border:none;padding:3px 7px;border-radius:5px}
+    .cart{background:#fff;padding:20px;border-radius:12px;margin-top:30px;box-shadow:0 4px 10px rgba(0,0,0,.08)}
+    .cart-item{display:grid;grid-template-columns:1fr 90px 90px 40px;gap:10px;align-items:center;border-bottom:1px solid #ddd;padding:10px 0}
+    .cart-item .qty{width:100%;padding:6px}
+    .cart-item button{background:red;color:white;border:none;padding:6px 0;border-radius:6px;cursor:pointer}
 
-.total{font-size:20px;color:#ff5722;text-align:center;margin:10px}
-input,textarea{width:100%;padding:8px;margin-top:5px}
-.whatsapp{background:#25d366;color:white;font-size:18px;border:none;padding:12px;width:100%;border-radius:8px;cursor:pointer}
+    .total{font-size:20px;color:#ff5722;text-align:center;margin:10px 0}
+    input,textarea{width:100%;padding:10px;margin-top:8px;border:1px solid #ddd;border-radius:8px;box-sizing:border-box}
+    textarea{min-height:90px;resize:vertical}
 
-.size-btns{display:flex;gap:6px;justify-content:center;margin:6px 0}
-.size-btns button{border:1px solid #ff5722;background:#fff;padding:4px 10px;border-radius:6px;cursor:pointer}
-.size-btns button.active{background:#ff5722;color:#fff}
+    .whatsapp{background:#25d366;color:white;font-size:18px;border:none;padding:12px;width:100%;border-radius:8px;cursor:pointer;margin-top:10px}
+    .whatsapp:active{transform:scale(.99)}
 
-.qty-box{display:flex;justify-content:center;gap:10px;margin:8px 0}
-.qty-box button{width:32px;height:32px;border-radius:50%;border:none;background:#ff5722;color:#fff;font-size:18px;cursor:pointer}
-.qty-box span{font-size:18px;width:30px;text-align:center}
-<style>
-body{font-family:Arial;background:#F7F4EF;direction:rtl;margin:0}
-/* باقي التنسيقات */
+    .location{
+      background:#2196f3;color:#fff;font-size:16px;border:none;
+      padding:10px;width:100%;border-radius:8px;cursor:pointer;margin:10px 0 0 0
+    }
 
-.location{
-    background:#2196f3;
-    color:#fff;
-    font-size:16px;
-    border:none;
-    padding:10px;
-    width:100%;
-    border-radius:8px;
-    cursor:pointer;
-    margin-bottom:10px;
-}
-header img{
-    width:150px;
-    height:auto;
-    display:block;
-    margin:0 auto 10px;
-}
+    .size-btns{display:flex;gap:6px;justify-content:center;margin:6px 0;flex-wrap:wrap}
+    .size-btns button{border:1px solid #ff5722;background:#fff;padding:6px 10px;border-radius:6px;cursor:pointer;width:auto;color:#ff5722}
+    .size-btns button.active{background:#ff5722;color:#fff}
 
+    .qty-box{display:flex;justify-content:center;gap:10px;margin:8px 0}
+    .qty-box button{width:32px;height:32px;border-radius:50%;border:none;background:#ff5722;color:#fff;font-size:18px;cursor:pointer}
+    .qty-box span{font-size:18px;width:30px;text-align:center;display:inline-block}
 
-</style>
-
-</style>
+    small{display:block;margin-top:6px}
+  </style>
 </head>
 
 <body>
+  <header>
+    <img src="https://uploads.onecompiler.io/43xh82fwf/44atfud5t/Photoroom-20260117_132534545.png" alt="Logo">
+    <p>اختر مطعمك واطلب الآن</p>
+  </header>
 
-<header>
-<img src="https://uploads.onecompiler.io/43xh82fwf/44atfud5t/Photoroom-20260117_132534545.png">
-<p>اختر مطعمك واطلب الآن</p>
-</header>
+  <div class="container">
 
-<div class="container">
+    <!-- مطعم 1 -->
+    <div class="rest">
+      <h2>🍕 مطعم الإيطالي</h2>
+      <div class="products">
+        <div class="product" data-name="بيتزا" data-cat="italian" data-price="40">
+          <img src="https://uploads.onecompiler.io/43xh82fwf/44atfud5t/Gemini_Generated_Image_xj7e77xj7e77xj7e.png" alt="بيتزا">
+          <h3>بيتزا</h3>
+          <p class="price">40 درهم</p>
+          <div class="qty-box">
+            <button type="button" onclick="changeQty(this,-1)">−</button>
+            <span>1</span>
+            <button type="button" onclick="changeQty(this,1)">+</button>
+          </div>
+          <button type="button" onclick="addToCart(this,'الإيطالي','بيتزا',40)">إضافة للسلة</button>
+        </div>
 
-<!-- مطعم 1 -->
-<div class="rest">
-<h2>🍕 مطعم الإيطالي</h2>
-<div class="products">
-<div class="product" data-name="بيتزا" data-cat="italian" data-price="40">
-<img src="https://uploads.onecompiler.io/43xh82fwf/44atfud5t/Gemini_Generated_Image_xj7e77xj7e77xj7e.png">
-<h3>بيتزا</h3>
-<p class="price">40 درهم</p>
-<div class="qty-box">
-<button onclick="changeQty(this,-1)">−</button>
-<span>1</span>
-<button onclick="changeQty(this,1)">+</button>
-</div>
-<button onclick="addToCart('الإيطالي','بيتزا',40)">إضافة للسلة</button>
-</div>
+        <div class="product" data-name="باستا" data-cat="italian" data-price="35">
+          <img src="https://uploads.onecompiler.io/43xh82fwf/44atfud5t/Gemini_Generated_Image_nge012nge012nge0.png" alt="باستا">
+          <h3>باستا</h3>
+          <p class="price">35 درهم</p>
+          <div class="qty-box">
+            <button type="button" onclick="changeQty(this,-1)">−</button>
+            <span>1</span>
+            <button type="button" onclick="changeQty(this,1)">+</button>
+          </div>
+          <button type="button" onclick="addToCart(this,'الإيطالي','باستا',35)">إضافة للسلة</button>
+        </div>
+      </div>
+    </div>
 
-<div class="product" data-name="باستا" data-cat="italian" data-price="35">
-<img src="https://uploads.onecompiler.io/43xh82fwf/44atfud5t/Gemini_Generated_Image_nge012nge012nge0.png">
-<h3>باستا</h3>
-<p class="price">35 درهم</p>
-<div class="qty-box">
-<button onclick="changeQty(this,-1)">−</button>
-<span>1</span>
-<button onclick="changeQty(this,1)">+</button>
-</div>
-<button onclick="addToCart('الإيطالي','باستا',35)">إضافة للسلة</button>
-</div>
-</div>
-</div>
+    <!-- مطعم 2 -->
+    <div class="rest">
+      <h2>🍔 مطعم الأمريكي</h2>
+      <div class="products">
+        <div class="product" data-name="همبرغر" data-cat="american" data-price="30">
+          <img src="https://uploads.onecompiler.io/43xh82fwf/44atfud5t/Gemini_Generated_Image_fvtl2yfvtl2yfvtl.png" alt="همبرغر">
+          <h3>همبرغر</h3>
+          <p class="price">30 درهم</p>
+          <div class="qty-box">
+            <button type="button" onclick="changeQty(this,-1)">−</button>
+            <span>1</span>
+            <button type="button" onclick="changeQty(this,1)">+</button>
+          </div>
+          <button type="button" onclick="addToCart(this,'الأمريكي','همبرغر',30)">إضافة للسلة</button>
+        </div>
 
-<!-- مطعم 2 -->
-<div class="rest">
-<h2>🍔 مطعم الأمريكي</h2>
-<div class="products">
-<div class="product" data-name="همبرغر" data-cat="american" data-price="30">
-<img src="https://uploads.onecompiler.io/43xh82fwf/44atfud5t/Gemini_Generated_Image_fvtl2yfvtl2yfvtl.png">
-<h3>همبرغر</h3>
-<p class="price">30 درهم</p>
-<div class="qty-box">
-<button onclick="changeQty(this,-1)">−</button>
-<span>1</span>
-<button onclick="changeQty(this,1)">+</button>
-</div>
-<button onclick="addToCart('الأمريكي','همبرغر',30)">إضافة للسلة</button>
-</div>
+        <div class="product" data-name="بطاطس" data-cat="american" data-price="15">
+          <img src="https://uploads.onecompiler.io/43xh82fwf/44atfud5t/Gemini_Generated_Image_vxzgslvxzgslvxzg.png" alt="بطاطس">
+          <h3>بطاطس</h3>
+          <p class="price">15 درهم</p>
+          <div class="qty-box">
+            <button type="button" onclick="changeQty(this,-1)">−</button>
+            <span>1</span>
+            <button type="button" onclick="changeQty(this,1)">+</button>
+          </div>
+          <button type="button" onclick="addToCart(this,'الأمريكي','بطاطس',15)">إضافة للسلة</button>
+        </div>
+      </div>
+    </div>
 
-<div class="product" data-name="بطاطس" data-cat="american" data-price="15">
-<img src="https://uploads.onecompiler.io/43xh82fwf/44atfud5t/Gemini_Generated_Image_vxzgslvxzgslvxzg.png">
-<h3>بطاطس</h3>
-<p class="price">15 درهم</p>
-<div class="qty-box">
-<button onclick="changeQty(this,-1)">−</button>
-<span>1</span>
-<button onclick="changeQty(this,1)">+</button>
-</div>
-<button onclick="addToCart('الأمريكي','بطاطس',15)">إضافة للسلة</button>
-</div>
-</div>
-</div>
+    <!-- متجر المشروبات -->
+    <div class="rest">
+      <h2>🥤 متجر المشروبات</h2>
+      <div class="products">
 
-<!-- متجر المشروبات -->
-<div class="rest">
-<h2>🥤 متجر المشروبات</h2>
-<div class="products">
+        <!-- كوكاكولا -->
+        <div class="product" data-name="كوكاكولا" data-cat="soda"
+          data-small="https://uploads.onecompiler.io/43xh82fwf/44atfud5t/H.png"
+          data-large="https://uploads.onecompiler.io/43xh82fwf/44atfud5t/H.png"
+          data-price-small="8" data-price-large="12">
+          <img src="https://uploads.onecompiler.io/43xh82fwf/44atfud5t/H.png" alt="كوكاكولا">
+          <h3>كوكاكولا</h3>
+          <p class="price">8 درهم</p>
 
-<!-- كوكاكولا -->
-<div class="product" data-name="كوكاكولا" data-cat="soda"
-data-small="https://via.placeholder.com/300x200?text=Coke+Small"
-data-large="https://via.placeholder.com/300x200?text=Coke+Large"
-data-price-small="8" data-price-large="12">
-<img src="https://uploads.onecompiler.io/43xh82fwf/44atfud5t/H.png">
-<h3>كوكاكولا</h3>
-<p class="price">8 درهم</p>
-<div class="size-btns">
-<button class="active" onclick="setSize(this,'small')">صغير</button>
-<button onclick="setSize(this,'large')">كبير</button>
-</div>
-<div class="size-btns">
-<button class="active" onclick="setOpt(this,'سكر','عادي')">سكر عادي</button>
-<button onclick="setOpt(this,'سكر','بدون')">بدون سكر</button>
-</div>
-<div class="size-btns">
-<button class="active" onclick="setOpt(this,'ثلج','عادي')">ثلج عادي</button>
-<button onclick="setOpt(this,'ثلج','بدون')">بدون ثلج</button>
-</div>
-<div class="qty-box">
-<button onclick="changeQty(this,-1)">−</button>
-<span>1</span>
-<button onclick="changeQty(this,1)">+</button>
-</div>
-<button onclick="addDrinkAdvanced(this)">إضافة للسلة</button>
-</div>
+          <div class="size-btns" data-group="size">
+            <button type="button" class="active" onclick="setSize(this,'small')">صغير</button>
+            <button type="button" onclick="setSize(this,'large')">كبير</button>
+          </div>
 
-</div>
-</div>
+          <div class="size-btns" data-group="sugar">
+            <button type="button" class="active" onclick="setOpt(this,'sugar','عادي')">سكر عادي</button>
+            <button type="button" onclick="setOpt(this,'sugar','بدون')">بدون سكر</button>
+          </div>
 
-<!-- السلة -->
-<div class="cart">
-<h2>🛒 سلة المشتريات</h2>
-<div id="cartItems"></div>
+          <div class="size-btns" data-group="ice">
+            <button type="button" class="active" onclick="setOpt(this,'ice','عادي')">ثلج عادي</button>
+            <button type="button" onclick="setOpt(this,'ice','بدون')">بدون ثلج</button>
+          </div>
 
-<div class="total">
-💰 المجموع: <span id="total">0</span> درهم
-</div>
+          <div class="qty-box">
+            <button type="button" onclick="changeQty(this,-1)">−</button>
+            <span>1</span>
+            <button type="button" onclick="changeQty(this,1)">+</button>
+          </div>
 
-<input id="name" placeholder="الاسم الكامل">
-<input id="phone" placeholder="رقم الهاتف مثال: +212600000000" oninput="validatePhone()">
-<small id="phoneError" style="color:red;display:none;">
-رقم الهاتف غير صحيح، يجب أن يكون بالشكل +212600000000
-</small>
-<textarea id="address" placeholder="العنوان"></textarea>
+          <button type="button" onclick="addDrinkAdvanced(this)">إضافة للسلة</button>
+        </div>
 
-<button class="location" onclick="getLocation()">📍 جلب العنوان تلقائيًا</button>
+      </div>
+    </div>
 
-<button class="whatsapp" onclick="sendWhatsApp()">📲 إرسال الطلب عبر واتساب</button>
+    <!-- السلة -->
+    <div class="cart">
+      <h2>🛒 سلة المشتريات</h2>
+      <div id="cartItems"></div>
 
-</div>
+      <div class="total">
+        💰 المجموع: <span id="total">0</span> درهم
+      </div>
 
-</div>
+      <input id="name" placeholder="الاسم الكامل" />
+      <input id="phone" placeholder="رقم الهاتف مثال: +212600000000" oninput="validatePhone()" />
+      <small id="phoneError" style="color:red;display:none;">
+        رقم الهاتف غير صحيح، يجب أن يكون بالشكل +2126XXXXXXXX أو +2127XXXXXXXX
+      </small>
 
-<script>
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      <textarea id="address" placeholder="العنوان"></textarea>
 
-function saveCart(){localStorage.setItem("cart",JSON.stringify(cart));}
+      <button type="button" class="location" onclick="getLocation()">📍 جلب العنوان تلقائيًا</button>
+      <button type="button" class="whatsapp" onclick="sendWhatsApp()">📲 إرسال الطلب عبر واتساب</button>
+    </div>
 
-function renderCart(){
-    let total = 0;
-    const box = document.getElementById("cartItems");
-    box.innerHTML = "";
+  </div>
 
-    cart.forEach((i,idx)=>{
-        total += i.price*i.qty;
+  <script>
+    const WHATSAPP_NUMBER = "212617139424";
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    function saveCart(){ localStorage.setItem("cart", JSON.stringify(cart)); }
+
+    function renderCart(){
+      let total = 0;
+      const box = document.getElementById("cartItems");
+      box.innerHTML = "";
+
+      cart.forEach((i, idx) => {
+        const line = i.price * i.qty;
+        total += line;
+
         box.innerHTML += `
-        <div class="cart-item">
-            <span>${i.rest} - ${i.name}</span>
-            <input class="qty" type="number" min="1" value="${i.qty}"
-            onchange="changeCartQty(${idx},this.value)">
-            <span>${i.price*i.qty} درهم</span>
-            <button onclick="removeItem(${idx})">✖</button>
-        </div>`;
-    });
+          <div class="cart-item">
+            <span>${escapeHtml(i.rest)} - ${escapeHtml(i.name)}</span>
+            <input class="qty" type="number" min="1" step="1" value="${i.qty}"
+              onchange="changeCartQty(${idx}, this.value)">
+            <span>${line} درهم</span>
+            <button type="button" onclick="removeItem(${idx})">✖</button>
+          </div>
+        `;
+      });
 
-    document.getElementById("total").innerText = total;
-}
-
-function changeCartQty(idx,val){
-    cart[idx].qty = Number(val);
-    saveCart(); renderCart();
-}
-
-function addToCart(rest,name,price){
-    const qty = Number(event.target.closest(".product")
-    .querySelector(".qty-box span").innerText);
-
-    let item = cart.find(i=>i.name===name && i.rest===rest);
-    if(item) item.qty += qty;
-    else cart.push({rest,name,price,qty});
-
-    saveCart(); renderCart();
-}
-
-function addDrinkAdvanced(btn){
-    const card = btn.closest(".product");
-    const qty = Number(card.querySelector(".qty-box span").innerText);
-    const price = Number(card.dataset.price);
-
-    const name = `${card.dataset.name} (${card.dataset.size||'صغير'} / ${card.dataset['سكر']||'عادي'} / ${card.dataset['ثلج']||'عادي'})`;
-
-    let exist = cart.find(i=>i.name===name);
-    if(exist) exist.qty += qty;
-    else cart.push({rest:"متجر المشروبات",name,price,qty});
-
-    saveCart(); renderCart();
-}
-
-function setSize(btn,size){
-    const card = btn.closest(".product");
-    const price = Number(card.dataset["price"+size.charAt(0).toUpperCase()+size.slice(1)]);
-    card.dataset.size = size;
-    card.dataset.price = price;
-    card.querySelector("img").src = card.dataset[size];
-    card.querySelector(".price").innerText = price+" درهم";
-    btn.parentElement.querySelectorAll("button").forEach(b=>b.classList.remove("active"));
-    btn.classList.add("active");
-}
-
-function setOpt(btn,opt,val){
-    const card = btn.closest(".product");
-    card.dataset[opt] = val;
-    btn.parentElement.querySelectorAll("button").forEach(b=>b.classList.remove("active"));
-    btn.classList.add("active");
-}
-
-function changeQty(btn,step){
-    const span = btn.parentElement.querySelector("span");
-    let v = Number(span.innerText)+step;
-    if(v<1)v=1;
-    span.innerText = v;
-}
-
-function removeItem(idx){
-    cart.splice(idx,1);
-    saveCart(); renderCart();
-}
-
-function sendWhatsApp(){
-    if(!validatePhone()){
-        alert("المرجو إدخال رقم هاتف صحيح");
-        return;
+      document.getElementById("total").innerText = total;
     }
 
-    if(cart.length===0){
-        alert("السلة فارغة");
-        return;
+    function changeCartQty(idx, val){
+      let v = Number(val);
+      if (!Number.isFinite(v) || v < 1) v = 1;
+      cart[idx].qty = v;
+      saveCart();
+      renderCart();
     }
-    let msg="🛒 طلب جديد:%0A";
-    cart.forEach(i=>{
-        msg+=`${i.rest} - ${i.name} × ${i.qty} = ${i.price*i.qty} درهم%0A`;
-    });
 
-    msg+=`المجموع: ${total.innerText} درهم%0A`;
-    msg+=`الاسم: ${name.value}%0Aالهاتف: ${phone.value}%0Aالعنوان: ${address.value}`;
+    function addToCart(btn, rest, name, price){
+      const card = btn.closest(".product");
+      const qty = Number(card.querySelector(".qty-box span").innerText) || 1;
 
-    window.open(`https://wa.me/212617139424?text=${msg}`,"_blank");
-}
+      const existing = cart.find(i => i.name === name && i.rest === rest && i.price === Number(price));
+      if(existing) existing.qty += qty;
+      else cart.push({ rest, name, price: Number(price), qty });
 
-renderCart();
-function validatePhone(){
-    const phoneInput = document.getElementById("phone");
-    const error = document.getElementById("phoneError");
-    const value = phoneInput.value.trim();
+      saveCart();
+      renderCart();
+      resetQtyBox(card);
+    }
 
-    const regex = /^\+2126\d{8}$/;
+    function addDrinkAdvanced(btn){
+      const card = btn.closest(".product");
+      const qty = Number(card.querySelector(".qty-box span").innerText) || 1;
 
-    if(value === ""){
+      // تأكيد القيم الحالية
+      const size = card.dataset.size || "small";
+      const sugar = card.dataset.sugar || "عادي";
+      const ice = card.dataset.ice || "عادي";
+      const price = Number(card.dataset.price || card.dataset.priceSmall || 0);
+
+      const baseName = card.dataset.name || "مشروب";
+      const fullName = `${baseName} (${size === "small" ? "صغير" : "كبير"} / سكر: ${sugar} / ثلج: ${ice})`;
+
+      const existing = cart.find(i => i.name === fullName && i.rest === "متجر المشروبات" && i.price === price);
+      if(existing) existing.qty += qty;
+      else cart.push({ rest: "متجر المشروبات", name: fullName, price, qty });
+
+      saveCart();
+      renderCart();
+      resetQtyBox(card);
+    }
+
+    function setSize(btn, size){
+      const card = btn.closest(".product");
+
+      const priceKey = size === "small" ? "priceSmall" : "priceLarge";
+      const price = Number(card.dataset[priceKey] || 0);
+
+      card.dataset.size = size;
+      card.dataset.price = price;
+
+      // تحديث الصورة والسعر
+      const imgUrl = card.dataset[size] || card.querySelector("img").src;
+      card.querySelector("img").src = imgUrl;
+      card.querySelector(".price").innerText = price + " درهم";
+
+      // تفعيل زر الحجم داخل نفس المجموعة فقط
+      const group = btn.parentElement;
+      group.querySelectorAll("button").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+    }
+
+    function setOpt(btn, opt, val){
+      const card = btn.closest(".product");
+
+      // خزنها بمفاتيح واضحة (sugar / ice)
+      card.dataset[opt] = val;
+
+      // تفعيل داخل نفس المجموعة فقط
+      const group = btn.parentElement;
+      group.querySelectorAll("button").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+    }
+
+    function changeQty(btn, step){
+      const span = btn.parentElement.querySelector("span");
+      let v = Number(span.innerText) + step;
+      if(v < 1) v = 1;
+      span.innerText = v;
+    }
+
+    function resetQtyBox(card){
+      const span = card.querySelector(".qty-box span");
+      if(span) span.innerText = "1";
+    }
+
+    function removeItem(idx){
+      cart.splice(idx, 1);
+      saveCart();
+      renderCart();
+    }
+
+    function validatePhone(){
+      const phoneInput = document.getElementById("phone");
+      const error = document.getElementById("phoneError");
+      const value = phoneInput.value.trim();
+
+      // +2126XXXXXXXX أو +2127XXXXXXXX
+      const regex = /^\+212[67]\d{8}$/;
+
+      if(value === ""){
         error.style.display = "none";
         return true;
-    }
+      }
 
-    if(!regex.test(value)){
+      if(!regex.test(value)){
         error.style.display = "block";
         return false;
-    }else{
+      }else{
         error.style.display = "none";
         return true;
+      }
     }
-}
 
-</script>
+    function sendWhatsApp(){
+      if(!validatePhone()){
+        alert("المرجو إدخال رقم هاتف صحيح");
+        return;
+      }
 
-<script>
-function getLocation(){
-    if(!navigator.geolocation){
+      if(cart.length === 0){
+        alert("السلة فارغة");
+        return;
+      }
+
+      const nameEl = document.getElementById("name");
+      const phoneEl = document.getElementById("phone");
+      const addressEl = document.getElementById("address");
+      const totalEl = document.getElementById("total");
+
+      if(nameEl.value.trim() === ""){
+        alert("المرجو إدخال الاسم الكامل");
+        return;
+      }
+      if(addressEl.value.trim() === ""){
+        alert("المرجو إدخال العنوان (أو استخدم زر جلب العنوان تلقائيًا)");
+        return;
+      }
+
+      let msg = "🛒 طلب جديد:\n";
+      cart.forEach(i => {
+        msg += `${i.rest} - ${i.name} × ${i.qty} = ${i.price * i.qty} درهم\n`;
+      });
+      msg += `\nالمجموع: ${totalEl.innerText} درهم\n`;
+      msg += `الاسم: ${nameEl.value}\nالهاتف: ${phoneEl.value}\nالعنوان: ${addressEl.value}`;
+
+      const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
+      window.open(url, "_blank");
+    }
+
+    async function getLocation(){
+      if(!navigator.geolocation){
         alert("المتصفح لا يدعم تحديد الموقع");
         return;
-    }
+      }
 
-    navigator.geolocation.getCurrentPosition(pos=>{
+      navigator.geolocation.getCurrentPosition(async (pos) => {
         const lat = pos.coords.latitude;
         const lng = pos.coords.longitude;
-        document.getElementById("address").value =
-        `Lat: ${lat}, Lng: ${lng}`;
-    });
-}
-</script>
 
+        // محاولة جلب عنوان نصّي من OpenStreetMap Nominatim
+        try{
+          const res = await fetch(
+            `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`,
+            { headers: { "Accept": "application/json" } }
+          );
+          const data = await res.json();
+          const display = data && data.display_name ? data.display_name : `Lat: ${lat}, Lng: ${lng}`;
+          document.getElementById("address").value = display;
+        }catch(e){
+          document.getElementById("address").value = `Lat: ${lat}, Lng: ${lng}`;
+        }
+      }, () => {
+        alert("تعذر تحديد موقعك، المرجو السماح بالوصول للموقع");
+      }, { enableHighAccuracy:true, timeout:10000 });
+    }
+
+    // لمنع مشاكل XSS داخل السلة (احتياط)
+    function escapeHtml(str){
+      return String(str)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+    }
+
+    // تهيئة المشروبات: ضبط السعر/الحجم الافتراضي حسب الزر النشط
+    function initDrinks(){
+      document.querySelectorAll('.product[data-cat="soda"]').forEach(card => {
+        // افتراضياً: size = small
+        if(!card.dataset.size) card.dataset.size = "small";
+        if(!card.dataset.sugar) card.dataset.sugar = "عادي";
+        if(!card.dataset.ice) card.dataset.ice = "عادي";
+
+        const size = card.dataset.size;
+        const price = Number(size === "small" ? card.dataset.priceSmall : card.dataset.priceLarge);
+        card.dataset.price = price;
+        card.querySelector(".price").innerText = price + " درهم";
+
+        // تأكيد الصورة حسب الحجم
+        const imgUrl = card.dataset[size] || card.querySelector("img").src;
+        card.querySelector("img").src = imgUrl;
+      });
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      initDrinks();
+      renderCart();
+    });
+  </script>
 </body>
 </html>
-
