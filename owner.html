@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Owner Panel</title>
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
+<header>
+  <div class="topbar">
+    <div class="brand">
+      <div class="logo">🏬</div>
+      <div>
+        <h1 data-i18n="owner">لوحة المالك</h1>
+        <p>Manage your restaurants and orders</p>
+      </div>
+    </div>
+    <div class="actions">
+      <div class="lang">
+        <span class="hint">Lang</span>
+        <select id="langSelect" aria-label="Language">
+          <option value="ar">AR</option>
+          <option value="en">EN</option>
+        </select>
+      </div>
+      <div id="navUser"></div>
+      <div id="navLinks" class="actions"></div>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <section class="card" style="margin-bottom:16px;">
+    <div class="card-title">
+      <h2>Restaurants</h2>
+      <span class="hint">Your storefronts</span>
+    </div>
+    <div id="restaurantsWrap"></div>
+  </section>
+
+  <section class="card">
+    <div class="card-title">
+      <h2 data-i18n="orders">الطلبات</h2>
+      <span class="hint">Orders containing your menu items</span>
+    </div>
+    <div id="ordersWrap"></div>
+  </section>
+
+  <div class="toast" id="toast"></div>
+</main>
+
+<script type="module" src="assets/owner.js"></script>
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Customer App</title>
+  <link rel="stylesheet" href="assets/styles.css"/>
+</head>
+<body>
+<header>
+  <div class="topbar">
+    <div class="brand">
+      <div class="logo">🍔</div>
+      <div>
+        <h1 data-i18n="customerApp">واجهة الزبون</h1>
+        <p>Restaurants • Products • Cart • Orders</p>
+      </div>
+    </div>
+
+    <div class="actions">
+      <div class="lang">
+        <span class="hint">Lang</span>
+        <select id="langSelect" aria-label="Language">
+          <option value="ar">AR</option>
+          <option value="en">EN</option>
+        </select>
+      </div>
+      <input id="searchInput" class="input" type="search" data-i18n-ph="search" placeholder="ابحث عن مطعم أو وجبة..."/>
+      <select id="catSelect"><option value="all" data-i18n="allCats">كل التصنيفات</option></select>
+      <button class="btn ghost" id="clearFiltersBtn" data-i18n="clearFilters">مسح الفلاتر</button>
+      <a class="btn ghost" href="index.html" data-i18n="home">الرئيسية</a>
+      <button class="btn secondary" id="openCheckoutBtn" data-i18n="cart">السلة <span class="badge" id="cartCount">0</span></button>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <div class="grid-2">
+    <section class="card">
+      <div class="card-title">
+        <h2 data-i18n="restaurantsAndMeals">المطاعم والوجبات</h2>
+        <span class="hint" id="resultsHint">—</span>
+      </div>
+      <div id="restaurantsWrap" class="rest-grid"></div>
+    </section>
+
+    <aside class="card">
+      <div class="card-title">
+        <h2 data-i18n="cartTitle">سلة المشتريات</h2>
+        <div class="flex">
+          <button class="btn ghost" id="ordersBtn" data-i18n="myOrders">طلباتي</button>
+          <button class="btn ghost" id="clearCartBtn" data-i18n="clear">تفريغ</button>
+        </div>
+      </div>
+
+      <div id="cartWrap" class="cart-items"></div>
+
+      <div class="coupon">
+        <input id="couponInput" class="input" data-i18n-ph="couponPlaceholder" placeholder="كود خصم (SAVE10 / LESS20)"/>
+        <button class="btn ghost" id="applyCouponBtn" data-i18n="apply">تطبيق</button>
+      </div>
+
+      <div class="totals">
+        <div class="row"><span>Subtotal</span><span id="subTotal">0.00</span></div>
+        <div class="row"><span>Delivery</span><span id="deliveryFee">0.00</span></div>
+        <div class="row"><span>Discount</span><span id="discount">0.00</span></div>
+        <div class="row"><strong>Grand</strong><strong id="grandTotal">0.00</strong></div>
+        <div class="divider"></div>
+        <button class="btn" id="checkoutBtn" data-i18n="checkout">إتمام الطلب</button>
+        <div class="hint">Cart is saved ✅</div>
+      </div>
+    </aside>
+  </div>
+
+  <div class="toast" id="toast"></div>
+</main>
+
+<!-- Checkout Modal -->
+<div class="overlay" id="checkoutOverlay">
+  <div class="modal">
+    <div class="modal-top">
+      <h3 data-i18n="checkout">إتمام الطلب</h3>
+      <button class="x" id="closeCheckoutBtn">✕</button>
+    </div>
+    <div class="hint">Fill details then confirm</div>
+    <div class="divider"></div>
+
+    <div class="form">
+      <div class="field">
+        <label>Name</label>
+        <input class="input" id="nameInput" />
+      </div>
+      <div class="field">
+        <label>Phone</label>
+        <input class="input" id="phoneInput" />
+      </div>
+      <div class="field">
+        <label>City</label>
+        <input class="input" id="cityInput" />
+      </div>
+      <div class="field">
+        <label>Payment</label>
+        <select id="paySelect">
+          <option value="cash">Cash</option>
+          <option value="card">Card (demo)</option>
+        </select>
+      </div>
+      <div class="field" style="grid-column:1/-1;">
+        <label>Address</label>
+        <textarea class="input" id="addressInput"></textarea>
+      </div>
+      <div class="field" style="grid-column:1/-1;">
+        <label>Note (optional)</label>
+        <textarea class="input" id="noteInput"></textarea>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn ghost" id="printBtn" data-i18n="print">طباعة</button>
+      <button class="btn secondary" id="confirmOrderBtn" data-i18n="confirm">تأكيد</button>
+    </div>
+  </div>
+</div>
+
+<!-- Orders Modal -->
+<div class="overlay" id="ordersOverlay">
+  <div class="modal">
+    <div class="modal-top">
+      <h3 data-i18n="myOrders">طلباتي</h3>
+      <button class="x" id="closeOrdersBtn">✕</button>
+    </div>
+    <div class="divider"></div>
+    <div id="ordersWrap"></div>
+  </div>
+</div>
+
+<script type="module" src="assets/app.js"></script>
+</body>
+</html>
